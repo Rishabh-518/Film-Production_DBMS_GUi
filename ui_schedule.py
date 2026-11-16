@@ -92,13 +92,13 @@ def show_reschedule(event, classes):
         show_table(affected["people"], "affected_people", "aff_people")
         show_table(affected["resources"], "affected_resources", "aff_res")
     with st.form("reschedule"):
-        start = pick_datetime("New start", event["start_datetime"], "re_start")
-        end = pick_datetime("New end", event["end_datetime"], "re_end")
+        start = pick_datetime("New start", event["start_datetime"], f"re_start_{event['event_id']}")
+        end = pick_datetime("New end", event["end_datetime"], f"re_end_{event['event_id']}")
         venue_id = st.selectbox(
             "Venue", venue_ids, format_func=lambda v: venue_names.get(v, "(none)"),
             index=venue_ids.index(event["venue_id"]) if event["venue_id"] in venue_ids else 0,
         )
-        confirmed = st.checkbox("I have reviewed any clashes and want to save anyway", key="re_confirm")
+        confirmed = st.checkbox("I have reviewed any clashes and want to save anyway", key=f"re_confirm_{event['event_id']}")
         if st.form_submit_button("Save new time"):
             attempt(schedule.reschedule_event, event["event_id"], start, end, venue_id, confirmed,
                     classes=classes, done="Event rescheduled (rows affected: {result})")
