@@ -1,0 +1,4 @@
+bcrypt==5.0.0
+psycopg2-binary==2.9.13
+streamlit==1.66.1
+playwright
